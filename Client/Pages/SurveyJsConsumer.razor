@@ -6,7 +6,7 @@
 @implements IDisposable
 @inject NavigationManager NavigationManager
 
-<h4> Please fill your answer.</h4>
+<h4> Molimo vas ispunite anketu.</h4>
 
 <div id="surveyElement">
     <survey params="survey: model"></survey>
@@ -27,7 +27,11 @@
             ObjectReference = DotNetObjectReference.Create(this);
 
             // make an api call to get the questionJson, for now let's use some static json..
-            builderJson = "{\"pages\":[{\"name\":\"page1\",\"elements\":[{\"type\":\"text\",\"name\":\"YourFirstQuestion..\",\"title\":\"What is your Name?\"},{\"type\":\"dropdown\",\"name\":\"question1\",\"title\":\"What is your Gender?\",\"choices\":[{\"value\":\"Item1\",\"text\":\"Male\"},{\"value\":\"Item2\",\"text\":\"Female\"},{\"value\":\"Item3\",\"text\":\"Other\"}]}]}]}";
+            // builderJson = "{\"pages\":[{\"name\":\"page1\",\"elements\":[{\"type\":\"text\",\"name\":\"YourFirstQuestion..\",\"title\":\"What is your Name?\"},{\"type\":\"dropdown\",\"name\":\"question1\",\"title\":\"What is your Gender?\",\"choices\":[{\"value\":\"Item1\",\"text\":\"Male\"},{\"value\":\"Item2\",\"text\":\"Female\"},{\"value\":\"Item3\",\"text\":\"Other\"}]}]}]}";
+            // builderJson = "{\"title\":\"Anketa o gradu Osijeku\",\"locale\": \"hr\",\"pages\":[{\"name\":\"page1\",\"elements\":[{\"type\":\"text\",\"name\":\"Your First Question..\",\"title\":\"Vaše ime i prezime\",\"isRequired\":true},{\"type\":\"text\",\"name\":\"pitanje2\",\"title\":\"Koliko imate godina?\",\"description\":\"Upišite vaše godine.\",\"isRequired\":true,\"inputType\":\"number\"},{\"type\":\"html\",\"name\":\"pitanje1\",\"html\":\"<div class=\\\"mapHolder\\\"><div>Eurodom Osijek</div>\\n<iframe class=\\\"map\\\" style=\\\"filter: hue-rotate(145deg); width: 100%;\\\" src=\\\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2793.750247780346!2d18.69224237759898!3d45.55534947107548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475ce7b768a4ad8f%3A0x3ee3cc1d29e927f3!2sEurodom%20Osijek%2C%2031000%2C%20Tvr%C4%91a%2C%20Osijek!5e0!3m2!1shr!2shr!4v1699615291824!5m2!1shr!2shr\\\" width=\\\"350\\\" height=\\\"200\\\" allowfullscreen=\\\"\\\" loading=\\\"lazy\\\" referrerpolicy=\\\"no-referrer-when-downgrade\\\"></iframe></div>\"},{\"type\":\"file\",\"name\":\"Ovdje možete prenijeti vaš certifikat.\"},{\"type\":\"matrixdynamic\",\"name\":\"Tablica\",\"title\":\"U priloženu tablicu upišite vaše podatke.\",\"columns\":[{\"name\":\"Column 1\"},{\"name\":\"Column 2\"},{\"name\":\"Column 3\"}],\"choices\":[1,2,3,4,5]}],\"title\":\"Anketa\"}]}";
+            builderJson = "{\"title\":\"Anketa o gradu Osijeku\",\"locale\":\"hr\",\"pages\":[{\"name\":\"page1\",\"elements\":[{\"type\":\"text\",\"name\":\"Your First Question..\",\"title\":\"Vaše ime i prezime\",\"isRequired\":true},{\"type\":\"text\",\"name\":\"pitanje2\",\"title\":\"Koliko imate godina?\",\"description\":\"Upišite vaše godine.\",\"isRequired\":true,\"inputType\":\"number\"},{\"type\":\"html\",\"name\":\"pitanje1\",\"html\":\"<div class=\\\"mapHolder\\\"><div>Eurodom Osijek</div>\\n<iframe class=\\\"map\\\" style=\\\"filter: hue-rotate(145deg); width: 100%;\\\" src=\\\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2793.750247780346!2d18.69224237759898!3d45.55534947107548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475ce7b768a4ad8f%3A0x3ee3cc1d29e927f3!2sEurodom%20Osijek%2C%2031000%2C%20Tvr%C4%91a%2C%20Osijek!5e0!3m2!1shr!2shr!4v1699615291824!5m2!1shr!2shr\\\" width=\\\"350\\\" height=\\\"200\\\" allowfullscreen=\\\"\\\" loading=\\\"lazy\\\" referrerpolicy=\\\"no-referrer-when-downgrade\\\"></iframe></div>\"},{\"type\":\"file\",\"name\":\"Ovdje možete prenijeti vaš certifikat.\"},{\"type\":\"matrixdynamic\",\"name\":\"Tablica\",\"title\":\"U priloženu tablicu upišite vaše podatke.\",\"columns\":[{\"name\":\"Column 1\"},{\"name\":\"Column 2\"},{\"name\":\"Column 3\"}],\"choices\":[1,2,3,4,5]},{\"type\":\"radiogroup\",\"name\":\"Your First Question..\",\"title\":\"Vaš spol.\",\"isRequired\":true,\"choices\":[{\"value\":\"Item 1\",\"text\":\"Muško\"},{\"value\":\"Item 2\",\"text\":\"Žensko\"},{\"value\":\"Item 3\",\"text\":\"Drugo\"}]}],\"title\":\"Anketa\"}]}";
+
+
             await jsRuntime.InvokeVoidAsync("AssessmentHelper.ShowAssessment", ObjectReference, builderJson, "");
             StateHasChanged();
         }

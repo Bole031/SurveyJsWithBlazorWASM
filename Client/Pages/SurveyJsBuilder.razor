@@ -1,4 +1,4 @@
-﻿@page "/creator"
+﻿@* @page "/creator"
 @inject HttpClient Http
 @inject IJSRuntime Jsr
 @implements IDisposable
@@ -15,13 +15,26 @@
     public IJSRuntime jsRuntime { get; set; }
     private IJSObjectReference? module;
     DotNetObjectReference<SurveyJsBuilder> ObjectReference;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             ObjectReference = DotNetObjectReference.Create(this);
             await Jsr.InvokeVoidAsync("SurveyHelper.ShowSurvey", ObjectReference, "");
+            await RegisterGoogleMapsWidget(); // Register Google Maps widget
         }
+    }
+
+    // Register the Google Maps widget
+    private async Task RegisterGoogleMapsWidget()
+    {
+        var googleMapsWidget = new
+        {
+            name = "googlemaps",
+            /* Add other properties and methods for Google Maps widget */
+        };
+        await Jsr.InvokeVoidAsync("Survey.CustomWidgetCollection.Instance.add", googleMapsWidget);
     }
 
     // being called by js, check dependency while changes
@@ -30,7 +43,73 @@
     {
         // place your code here.. to make an API call and save the surveyJson.
         await Jsr.InvokeVoidAsync("alert", "Survey Builder: " + surveyContent);
+    }
 
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+
+        if (ObjectReference != null)
+        {
+            //Now dispose our object reference so our component can be garbage collected
+            ObjectReference.Dispose();
+        }
+    }
+} *@
+
+
+
+
+    @page "/creator"
+@inject HttpClient Http
+@inject IJSRuntime Jsr
+@implements IDisposable
+
+<h4>Složite svoju dinamičku formu ovdje..</h4>
+
+<div id="surveyContainer">
+    <div id="creatorElement"></div>
+</div>
+
+@code {
+
+    [Inject]
+    public IJSRuntime jsRuntime { get; set; }
+    private IJSObjectReference? module;
+    DotNetObjectReference<SurveyJsBuilder> ObjectReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ObjectReference = DotNetObjectReference.Create(this);
+            await Jsr.InvokeVoidAsync("SurveyHelper.ShowSurvey", ObjectReference, "");
+            await RegisterGoogleMapsWidget(); // Register Google Maps widget
+        }
+    }
+
+    // Register the Google Maps widget
+    private async Task RegisterGoogleMapsWidget()
+    {
+        var googleMapsWidget = new
+        {
+            name = "googlemaps",
+            title = "Google Maps",
+            isDefaultRender = true,
+            afterRender = @"
+                // Include your custom rendering logic here
+                // This function will be called after rendering the widget
+            "
+        };
+        await Jsr.InvokeVoidAsync("Survey.CustomWidgetCollection.Instance.add", googleMapsWidget);
+    }
+
+    // being called by js, check dependency while changes
+    [JSInvokable("SaveSurvey")]
+    public async Task SaveQuestions(string surveyContent)
+    {
+        // place your code here.. to make an API call and save the surveyJson.
+        await Jsr.InvokeVoidAsync("alert", "Survey Builder: " + surveyContent);
     }
 
     public void Dispose()
